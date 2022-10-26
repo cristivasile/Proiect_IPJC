@@ -3,9 +3,9 @@
 Mai multe detalii in - insert wiki -
 
 *ID : 5 -- GRUPA : 331*
-- Cuciureanu Adrian
+- Cuciureanu Dragos Adrian
 - Gruia Gabriel
-- Nacu Andrei
-- Podaru Eduard
+- Nacu Andrei Emilian
+- Podaru Eduard Cristian
 - Preoteasa Teodora
-- Vasile Critian
+- Vasile George Cristian
