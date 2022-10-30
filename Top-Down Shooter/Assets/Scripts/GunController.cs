@@ -24,9 +24,7 @@ public class GunController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        orientation = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
-        angle = -Mathf.Atan2(orientation.x, orientation.y) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0f, 0f, angle);
+        transform.rotation = Utils.GetRelativeRotation(transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition));
 
         fireTimer += Time.deltaTime;
         if (fireTimer >= 1 / fireRate && Input.GetMouseButton(0))

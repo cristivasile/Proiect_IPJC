@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7543775649975336932}
   - component: {fileID: 8781722045163949602}
   m_Layer: 0
-  m_Name: MeleeEnemy
+  m_Name: MeleeEnemyPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -97,3 +97,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1ca94eba11da9e4782797f3d8d4ef61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
