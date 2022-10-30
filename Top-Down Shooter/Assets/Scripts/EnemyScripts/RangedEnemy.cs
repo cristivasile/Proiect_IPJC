@@ -6,6 +6,11 @@ public class RangedEnemy : MonoBehaviour
 {
     private static int instances = 0;
 
+    public RangedEnemy()
+    {
+        instances++;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -18,6 +23,14 @@ public class RangedEnemy : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// Should be called on death.
+    /// </summary>
+    void Destroy()
+    {
+        Destroy(gameObject);
+        instances--;
+    }
 
     public static int GetNumberOfInstances()
     {

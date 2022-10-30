@@ -7,6 +7,11 @@ public class MeleeEnemy : MonoBehaviour
     private static int instances = 0;
     private float health = 100f;
 
+    public MeleeEnemy()
+    {
+        instances++;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -19,6 +24,14 @@ public class MeleeEnemy : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// Should be called on death.
+    /// </summary>
+    void Destroy()
+    {
+        Destroy(gameObject);
+        instances--;
+    }
 
     public static int GetNumberOfInstances()
     {
