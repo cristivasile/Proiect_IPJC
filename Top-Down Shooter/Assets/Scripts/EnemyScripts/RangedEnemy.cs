@@ -4,12 +4,7 @@ using UnityEngine;
 
 public class RangedEnemy : BaseEnemy
 {
-    private static int instances = 0;
-
-    public RangedEnemy()
-    {
-        instances++;
-    }
+    public RangedEnemy() : base() { }
 
     // Start is called before the first frame update
     new void Start()
@@ -21,19 +16,5 @@ public class RangedEnemy : BaseEnemy
     new void Update()
     {
         base.Update();
-    }
-
-    /// <summary>
-    /// Should be called on death.
-    /// </summary>
-    void Destroy()
-    {
-        Destroy(gameObject);
-        instances--;
-    }
-
-    public static int GetNumberOfInstances()
-    {
-        return instances;
     }
 }

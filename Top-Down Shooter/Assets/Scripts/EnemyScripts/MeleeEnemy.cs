@@ -4,13 +4,7 @@ using UnityEngine;
 
 public class MeleeEnemy : BaseEnemy
 {
-    private static int instances = 0;
-
-    public MeleeEnemy()
-    {
-        instances++;
-    }
-
+    public MeleeEnemy() : base() { }
 
     // Start is called before the first frame update
     new void Start()
@@ -22,19 +16,5 @@ public class MeleeEnemy : BaseEnemy
     new void Update()
     {
         base.Update();
-    }
-
-    /// <summary>
-    /// Should be called on death.
-    /// </summary>
-    void Destroy()
-    {
-        Destroy(gameObject);
-        instances--;
-    }
-
-    public static int GetNumberOfInstances()
-    {
-        return instances;
     }
 }

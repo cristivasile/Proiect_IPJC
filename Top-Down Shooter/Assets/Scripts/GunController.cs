@@ -6,9 +6,6 @@ public class GunController : MonoBehaviour
 {
     private Transform barrel;
 
-    private Vector2 orientation;
-    private float angle;
-
     public GameObject bullet;
     public float bulletSpeed = 10f;
     private float fireTimer = 0f;

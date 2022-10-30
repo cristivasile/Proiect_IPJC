@@ -16,11 +16,11 @@ public class EnemySpawner : MonoBehaviour
     /// <summary>
     /// Spawn interval in milliseconds
     /// </summary>
-    public long enemySpawnInterval = 1000;
+    public const long enemySpawnInterval = 1000;
     /// <summary>
     /// Ms elapsed since last enemy was spawned
     /// </summary>
-    float lastSpawnInterval;
+    float lastSpawnInterval = enemySpawnInterval + 1;
 
     // Start is called before the first frame update
     void Start()
@@ -34,7 +34,7 @@ public class EnemySpawner : MonoBehaviour
     {
         lastSpawnInterval += Time.deltaTime * 1000;
         if (lastSpawnInterval > enemySpawnInterval && 
-            MeleeEnemy.GetNumberOfInstances() + RangedEnemy.GetNumberOfInstances() < maxEnemyCount)
+            BaseEnemy.GetNumberOfInstances() < maxEnemyCount)
         {
             lastSpawnInterval = 0;
             Spawn();
