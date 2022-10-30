@@ -10,7 +10,6 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        GameMode.playerController = this;
     }
 
     private void Update()
