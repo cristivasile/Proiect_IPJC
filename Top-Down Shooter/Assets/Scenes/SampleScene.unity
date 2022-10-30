@@ -787,8 +787,6 @@ MonoBehaviour:
   - {fileID: 950013594570341731, guid: 070906ce34233f14f91ff32bad923b67, type: 3}
   - {fileID: 4347165361591664469, guid: d8c1d1a83568020488803df2cbf2cb39, type: 3}
   player: {fileID: 93027039}
-  maxSpawnOffset: 11
-  minSpawnOffset: 10
   maxEnemyCount: 10
   enemySpawnInterval: 100
 --- !u!4 &1117191728
@@ -799,7 +797,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1117191726}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.6802582, y: -0.19361204, z: -0.28394}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

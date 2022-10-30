@@ -25,6 +25,8 @@ public class EnemySpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //set player reference
+        BaseEnemy.player = player;
     }
 
     // Update is called once per frame
@@ -64,8 +66,7 @@ public class EnemySpawner : MonoBehaviour
 
         var enemyIndex = random.Next(0, enemies.Count);
         GameObject newEnemy = Instantiate(enemies[enemyIndex]);
+        //set position
         newEnemy.transform.position = player.transform.position + new Vector3(xOffset, yOffset, 0);
-        //GameObject newEnemy = Instantiate(meleeEnemy);
-        //newEnemy = Instantiate(rangedEnemy) as GameObject;
     }
 }
