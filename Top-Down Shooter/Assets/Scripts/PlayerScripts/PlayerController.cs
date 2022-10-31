@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        this.transform.rotation = Utils.GetRelativeRotation(transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition));
         MovePlayer();
     }
 
