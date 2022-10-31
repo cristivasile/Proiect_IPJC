@@ -26,6 +26,37 @@ public class BaseEnemy : MonoBehaviour
         transform.rotation = Utils.GetRelativeRotation(transform.position, player.transform.position);
     }
 
+<<<<<<< Updated upstream
+=======
+    public void TakeHit(GameObject sender, float knockbackStrength, float hitValue)
+    {
+        health -= hitValue;
+
+        if (health <= 0)
+        {
+            Die();
+            return;
+        }
+
+        TakeKnockback(sender, knockbackStrength);
+    }
+
+    private void TakeKnockback(GameObject sender, float strength)
+    {
+        StopAllCoroutines();
+        Vector2 direction = (transform.position - sender.transform.position).normalized;
+        direction *= strength;
+        rb.AddForce(direction, ForceMode2D.Impulse);
+        StartCoroutine(KnockbackReset(direction)); 
+    }
+
+    private IEnumerator KnockbackReset(Vector2 force)
+    {
+        yield return new WaitForSeconds(knockbackDelay);
+        rb.velocity = Vector2.zero;
+    }
+
+>>>>>>> Stashed changes
     /// <summary>
     /// Should be called on death.
     /// </summary>
