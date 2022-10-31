@@ -32,7 +32,7 @@ public class EnemySpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        lastSpawnInterval += Time.deltaTime * 1000;
+         lastSpawnInterval += Time.deltaTime * 1000;
         if (lastSpawnInterval > enemySpawnInterval && 
             BaseEnemy.GetNumberOfInstances() < maxEnemyCount)
         {
