@@ -7,16 +7,18 @@ public class BaseEnemy : MonoBehaviour
     private static int instances = 0;
     public static GameObject player;
     protected float health = 100f;
+    private Rigidbody2D rb;
+    const float knockbackDelay = 0.15f;
 
     protected BaseEnemy()
     {
-
     }
 
     // Start is called before the first frame update
     protected void Start()
     {
         instances++;
+        rb = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
@@ -26,8 +28,6 @@ public class BaseEnemy : MonoBehaviour
         transform.rotation = Utils.GetRelativeRotation(transform.position, player.transform.position);
     }
 
-<<<<<<< Updated upstream
-=======
     public void TakeHit(GameObject sender, float knockbackStrength, float hitValue)
     {
         health -= hitValue;
@@ -56,11 +56,10 @@ public class BaseEnemy : MonoBehaviour
         rb.velocity = Vector2.zero;
     }
 
->>>>>>> Stashed changes
     /// <summary>
     /// Should be called on death.
     /// </summary>
-    protected void Destroy()
+    protected void Die()
     {
         Destroy(gameObject);
         instances--;
