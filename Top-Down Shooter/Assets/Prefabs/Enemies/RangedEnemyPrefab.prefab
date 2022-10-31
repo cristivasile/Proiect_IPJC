@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2465989617644442703}
   - component: {fileID: 7363027248540111746}
   - component: {fileID: 6229735560683173668}
+  - component: {fileID: -6310186619267206003}
   - component: {fileID: 7061202267375734977}
   m_Layer: 0
   m_Name: RangedEnemyPrefab
@@ -98,6 +99,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bba42df5309d40e47bdf881e260f9ce0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!50 &-6310186619267206003
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4347165361591664469}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 2
+  m_AngularDrag: 1
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!61 &7061202267375734977
 BoxCollider2D:
   m_ObjectHideFlags: 0
