@@ -28,7 +28,14 @@ public class BaseEnemy : MonoBehaviour
         transform.rotation = Utils.GetRelativeRotation(transform.position, player.transform.position);
     }
 
-    public void TakeHit(GameObject sender, float knockbackStrength, float hitValue)
+
+    /// <summary>
+    /// Should be called when the enemy is hit.
+    /// </summary>
+    /// <param name="senderTransform"> - position of the hitter </param>
+    /// <param name="knockbackStrength"> - strength of the knockback dealt </param>
+    /// <param name="hitValue"> - damage dealt by the hit</param>
+    public void TakeHit(Transform senderTransform, float knockbackStrength, float hitValue)
     {
         health -= hitValue;
 
@@ -38,13 +45,14 @@ public class BaseEnemy : MonoBehaviour
             return;
         }
 
-        TakeKnockback(sender, knockbackStrength);
+        TakeKnockback(senderTransform, knockbackStrength);
     }
 
-    private void TakeKnockback(GameObject sender, float strength)
+
+    private void TakeKnockback(Transform senderTransform, float strength)
     {
         StopAllCoroutines();
-        Vector2 direction = (transform.position - sender.transform.position).normalized;
+        Vector2 direction = (transform.position - senderTransform.position).normalized;
         direction *= strength;
         rb.AddForce(direction, ForceMode2D.Impulse);
         StartCoroutine(KnockbackReset(direction)); 

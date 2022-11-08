@@ -6,6 +6,7 @@ public class BulletController : MonoBehaviour
 {
     public float damage = 1f;
     public float knockbackStrength = 5f;
+    public Transform shotFrom;
     /// <summary>
     /// Number of enemies the bullet can punch through before it is destroyed
     /// </summary>
@@ -33,7 +34,7 @@ public class BulletController : MonoBehaviour
             if (punchThrough == 0)
                 Destroy(gameObject);
 
-            other.gameObject.GetComponent<BaseEnemy>().TakeHit(gameObject, knockbackStrength, damage);
+            other.gameObject.GetComponent<BaseEnemy>().TakeHit(shotFrom, knockbackStrength, damage);
         }
 
     }
