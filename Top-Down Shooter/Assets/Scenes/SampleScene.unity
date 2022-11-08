@@ -929,6 +929,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 93027044}
     m_Modifications:
+    - target: {fileID: 5033952735864704907, guid: 9833eead385be39488a2fff0dc1a0c28, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 93027039}
     - target: {fileID: 7890620772174154996, guid: 9833eead385be39488a2fff0dc1a0c28, type: 3}
       propertyPath: m_Name
       value: RangedWeaponPrefab
