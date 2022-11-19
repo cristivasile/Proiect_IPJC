@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MeleeEnemy : BaseEnemy
 {
+
     public MeleeEnemy() : base() { }
 
     // Start is called before the first frame update
@@ -16,5 +17,26 @@ public class MeleeEnemy : BaseEnemy
     new void Update()
     {
         base.Update();
+
+        if (knockbackTimer <= 0f) {
+            Follow();
+        }
+    }
+
+    public void Follow() {
+        Vector2 moveDirection;
+        moveDirection = player.transform.position - transform.position;
+        moveDirection.Normalize();
+
+        rb.velocity = moveDirection * speed;
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            other.GetComponentInParent<PlayerController>().TakeDamage(damage);
+
+        }
     }
 }

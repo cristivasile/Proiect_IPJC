@@ -4,11 +4,19 @@ using UnityEngine;
 
 public class BaseEnemy : MonoBehaviour
 {
-    private static int instances = 0;
+
     public static GameObject player;
-    protected float health = 100f;
-    private Rigidbody2D rb;
-    const float knockbackDelay = 0.15f;
+    protected float speed = 2f;
+    protected float damage = 1f;
+    protected float health = 10f;
+
+    protected Rigidbody2D rb;
+
+    private static int instances = 0;
+
+    const float knockbackTime = 0.1f;
+    public float knockbackTimer = 0f;
+
 
     protected BaseEnemy()
     {
@@ -26,6 +34,9 @@ public class BaseEnemy : MonoBehaviour
     {
         //face player
         transform.rotation = Utils.GetRelativeRotation(transform.position, player.transform.position);
+        if (knockbackTimer >= 0) {
+            knockbackTimer -= Time.deltaTime;
+        }
     }
 
 
@@ -51,17 +62,11 @@ public class BaseEnemy : MonoBehaviour
 
     private void TakeKnockback(Transform senderTransform, float strength)
     {
-        StopAllCoroutines();
         Vector2 direction = (transform.position - senderTransform.position).normalized;
-        direction *= strength;
-        rb.AddForce(direction, ForceMode2D.Impulse);
-        StartCoroutine(KnockbackReset(direction)); 
-    }
-
-    private IEnumerator KnockbackReset(Vector2 force)
-    {
-        yield return new WaitForSeconds(knockbackDelay);
+        knockbackTimer = knockbackTime;
         rb.velocity = Vector2.zero;
+        rb.AddForce(direction.normalized * strength, ForceMode2D.Impulse);
+
     }
 
     /// <summary>

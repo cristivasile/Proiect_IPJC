@@ -5,6 +5,8 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public float speed = 10.0f;
+    public float health = 50.0f;
+
     private Rigidbody2D rb;
 
     private void Start()
@@ -16,6 +18,7 @@ public class PlayerController : MonoBehaviour
     {
         this.transform.rotation = Utils.GetRelativeRotation(transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition));
         MovePlayer();
+
     }
 
     private void MovePlayer()
@@ -25,4 +28,17 @@ public class PlayerController : MonoBehaviour
 
         rb.velocity = new Vector3(horizontalInput * speed, verticalInput * speed, 0);
     }
+
+    public void TakeDamage(float damage) {
+        health = health - damage;
+
+        if (health <= 0f) {
+            Die();
+        }
+    }
+
+    private void Die() {
+        Destroy(gameObject);
+    }
+
 }
