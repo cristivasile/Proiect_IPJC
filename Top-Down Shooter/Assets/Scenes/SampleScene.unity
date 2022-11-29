@@ -177,6 +177,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
+  health: 50
 --- !u!212 &93027043
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -412,7 +413,7 @@ GameObject:
   m_Component:
   - component: {fileID: 274343090}
   m_Layer: 0
-  m_Name: Walls
+  m_Name: Borders
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -840,6 +841,10 @@ MonoBehaviour:
   - {fileID: 950013594570341731, guid: 070906ce34233f14f91ff32bad923b67, type: 3}
   - {fileID: 4347165361591664469, guid: d8c1d1a83568020488803df2cbf2cb39, type: 3}
   player: {fileID: 93027039}
+  leftBound: {fileID: 379081443}
+  rightBound: {fileID: 1470532362}
+  topBound: {fileID: 649317538}
+  bottomBound: {fileID: 1813645985}
   maxEnemyCount: 10
 --- !u!4 &1117191728
 Transform:
