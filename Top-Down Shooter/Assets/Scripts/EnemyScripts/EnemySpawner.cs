@@ -13,8 +13,8 @@ public class EnemySpawner : MonoBehaviour
     public GameObject bottomBound;
 
     /// xOffset, yOffset
-    public static (float, float) minSpawnOffset = (9, 5.5f);
-    public static (float, float) maxSpawnOffset = (12, 8);
+    public static Vector2 minSpawnOffset = new(9, 5.5f);
+    public static Vector2 maxSpawnOffset = new(12, 8);
 
     public int maxEnemyCount = 10;
     /// <summary>
@@ -76,13 +76,13 @@ public class EnemySpawner : MonoBehaviour
         if (spawnOnVerticalAxis == 1)
         {
             //var playerPosition = GameMode.playerController.gameObject.transform.position;
-            xOffset = Random.Range(minSpawnOffset.Item1, maxSpawnOffset.Item1);
-            yOffset = Random.Range(0, maxSpawnOffset.Item2);
+            xOffset = Random.Range(minSpawnOffset.x, maxSpawnOffset.x);
+            yOffset = Random.Range(0, maxSpawnOffset.y);
         }
         else
         {
-            xOffset = Random.Range(0, maxSpawnOffset.Item1);
-            yOffset = Random.Range(minSpawnOffset.Item2, maxSpawnOffset.Item2);
+            xOffset = Random.Range(0, maxSpawnOffset.x);
+            yOffset = Random.Range(minSpawnOffset.y, maxSpawnOffset.y);
         }
 
         var isXNegative = random.Next(0, 2);
