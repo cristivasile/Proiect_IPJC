@@ -17,6 +17,7 @@ public class RangedEnemy : BaseEnemy
     public float runRange = 2.5f;
     public float runSpeed = 3f;
     public float followSpeed = 4f;
+    public float attackSpeed = 1f;
 
     [Header("Attack Positions")]
     public Transform attackDown;
@@ -30,6 +31,8 @@ public class RangedEnemy : BaseEnemy
 
     private float distanceToPlayer;
     private AttackDirection attackDirection;
+    private float attackTimer;
+
     public RangedEnemy() : base() {
 
     }
@@ -47,6 +50,9 @@ public class RangedEnemy : BaseEnemy
 
         SetAttackDirection();
         CalculateDistanceToPlayer();
+        TickAttackTimer();
+
+        Attack();
 
         if (knockbackTimer <= 0f) {
             Move();
@@ -59,7 +65,6 @@ public class RangedEnemy : BaseEnemy
             Run();
         }
         else if (distanceToPlayer <= attackRange) {
-            Shoot();
             return;
         }
         else {
@@ -84,10 +89,17 @@ public class RangedEnemy : BaseEnemy
         rb.velocity = moveDirection * followSpeed;
     }
 
+    public void Attack() {
+        if (attackTimer <= 0f) {
+            Shoot();
+            attackTimer = attackSpeed;
+        }
+    }
+
     public void Shoot() {
         Rigidbody2D bulletRb = null;
         Vector2 bulletDirection;
-        
+
         if (attackDirection == AttackDirection.Down)
         {
             bulletRb = (Instantiate(bullet, attackDown.transform.position, Quaternion.identity) as GameObject).GetComponent<Rigidbody2D>();
@@ -114,12 +126,12 @@ public class RangedEnemy : BaseEnemy
         bulletRb.AddForce(bulletDirection * bulletSpeed);
     }
 
-    public void CalculateDistanceToPlayer() {
+    private void CalculateDistanceToPlayer() {
         Vector2 playerPosition = new Vector2(player.transform.position.x, player.transform.position.y);
         distanceToPlayer = Vector2.Distance(playerPosition, transform.position);
     }
 
-    public void SetAttackDirection() {
+    private void SetAttackDirection() {
         float minDistance;
         int minDistanceIndex;
 
@@ -164,5 +176,8 @@ public class RangedEnemy : BaseEnemy
         }
     }
 
+    private void TickAttackTimer() {
+        if (attackTimer > 0f) attackTimer -= Time.deltaTime;
+    }
 
 }
