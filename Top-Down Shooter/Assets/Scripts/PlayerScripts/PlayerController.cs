@@ -1,11 +1,27 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public float speed = 10.0f;
-    public float health = 50.0f;
+    //stats for health
+    public float maxHealth = 50f;
+    public float currentHealth = 50f;
+
+    //rest of the stats in percentage
+    public float speed = 100f;
+    public float lifeSteal = 0f;
+    public float damage = 100f;
+    public float atackSpeed = 100f;
+    public float critChance = 10f;
+    public float range = 100f;
+    public float armor = 0f;
+    public float dodgeChance = 10f;
+    public float harvesting = 100f;
+
+    public float coins = 0f;
 
     private Rigidbody2D rb;
 
@@ -26,14 +42,38 @@ public class PlayerController : MonoBehaviour
         var horizontalInput = Input.GetAxisRaw("Horizontal");
         var verticalInput = Input.GetAxisRaw("Vertical");
 
-        rb.velocity = new Vector3(horizontalInput * speed, verticalInput * speed, 0);
+        rb.velocity = new Vector3(horizontalInput * 5 * speed / 100, verticalInput * 5 * speed / 100, 0);
+    }
+
+    public void Heal(float healPoints)
+    {
+        currentHealth += healPoints;
+        currentHealth = Math.Min(maxHealth, currentHealth);
     }
 
     public void TakeDamage(float damage) {
-        health = health - damage;
+        System.Random random = new();
+        var rng = random.Next(0, 100);
 
-        if (health <= 0f) {
-            Die();
+        //determine if the hit connects due to dodge  chance
+        if (rng >= Math.Min(dodgeChance, 60))
+        {
+            //determine the actual damage taken
+            if (armor >= 0)
+            {
+                damage *= 100 / (100 + armor);
+            }
+            else
+            {
+                damage *= (2 - 100 / (100 - armor));
+            }
+            
+            currentHealth -= damage;
+
+            if (currentHealth <= 0f)
+            {
+                Die();
+            }
         }
     }
 
