@@ -232,10 +232,13 @@ MonoBehaviour:
   runRange: 2.5
   runSpeed: 3
   followSpeed: 4
+  attackSpeed: 1
   attackDown: {fileID: 1898434189}
   attackLeft: {fileID: 312774699}
   attackUp: {fileID: 2130227339}
   attackRight: {fileID: 934418048}
+  bullet: {fileID: 3606777373553821258, guid: 6e7ca0bc0c2390946887eaf4b9f39933, type: 3}
+  bulletSpeed: 100
 --- !u!50 &-6310186619267206003
 Rigidbody2D:
   serializedVersion: 4
