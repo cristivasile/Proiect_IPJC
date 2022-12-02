@@ -1,13 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public float speed = 10.0f;
-    public float health = 50.0f;
+    public float moveSpeed = 8.0f;
+    public float health = 100.0f;
+    public Weapon weapon;
+    Rigidbody2D rb;
+    
+    // --- Player movement ---
+    Vector2 moveDirection, mousePosition;
 
-    private Rigidbody2D rb;
+    // --- Player rotation ---
+    public float maxTurnSpeed = 720f; // maximum rotation per second (in degrees)
+    public float smoothTime = 0.1f; // estimated time for the whole rotation (in seconds)
+    float angle, currentAngularVelocity;
+
 
     private void Start()
     {
@@ -16,29 +23,53 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        this.transform.rotation = Utils.GetRelativeRotation(transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition));
-        MovePlayer();
+        // mouse position relative to the player
+        mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
+        if (Input.GetMouseButtonDown(0))
+        {
+            weapon.Fire();
+        }
     }
 
-    private void MovePlayer()
+    private void FixedUpdate()
     {
-        var horizontalInput = Input.GetAxisRaw("Horizontal");
-        var verticalInput = Input.GetAxisRaw("Vertical");
-
-        rb.velocity = new Vector3(horizontalInput * speed, verticalInput * speed, 0);
+        UpdatePlayerMovement();
+        UpdatePlayerRotation();
     }
 
-    public void TakeDamage(float damage) {
-        health = health - damage;
 
-        if (health <= 0f) {
+    private void UpdatePlayerMovement()
+    {
+        var moveX = Input.GetAxisRaw("Horizontal");
+        var moveY = Input.GetAxisRaw("Vertical");
+
+        moveDirection = new Vector2(moveX, moveY).normalized;
+        rb.velocity = moveDirection * moveSpeed;
+    }
+
+    private void UpdatePlayerRotation()
+    {
+        Vector2 aimDirection = mousePosition - rb.position;
+        float targetAngle = Vector2.SignedAngle(Vector2.up, aimDirection); // returns the angle in degrees (-180, 180)
+        
+        angle = Mathf.SmoothDampAngle(angle, targetAngle, ref currentAngularVelocity, smoothTime, maxTurnSpeed); // similar to Quaternion.Lerp()
+        rb.rotation = angle;
+    }
+
+    // Player damage
+    public void TakeDamage(float damage)
+    {
+        health -= damage;
+        if (health <= 0f)
+        {
             Die();
         }
     }
 
-    private void Die() {
+    // Player death
+    private void Die()
+    {
         Destroy(gameObject);
     }
-
 }

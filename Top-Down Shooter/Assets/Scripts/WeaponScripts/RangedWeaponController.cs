@@ -8,9 +8,9 @@ public class RangedWeaponController : MonoBehaviour
 
     public GameObject player;
     public GameObject bullet;
-    public float bulletSpeed = 10f;
+
+    public RangedWeapon weapon;
     private float fireTimer = 0f;
-    public float fireRate = 2f;
 
 
     // Start is called before the first frame update
@@ -23,7 +23,7 @@ public class RangedWeaponController : MonoBehaviour
     void Update()
     {
         fireTimer += Time.deltaTime;
-        if (fireTimer >= 1 / fireRate && Input.GetMouseButton(0))
+        if (fireTimer >= 1 / weapon.fireRate && Input.GetMouseButton(0))
         {
             fireTimer = 0;
             Shoot();
@@ -35,6 +35,6 @@ public class RangedWeaponController : MonoBehaviour
     {
         GameObject shot = Instantiate(bullet, barrel.position, barrel.rotation);
         shot.GetComponent<BulletController>().shotFrom = player.transform;
-        shot.GetComponent<Rigidbody2D>().velocity = barrel.up * bulletSpeed;
+        shot.GetComponent<Rigidbody2D>().velocity = barrel.up * weapon.bulletSpeed;
     }
 }
