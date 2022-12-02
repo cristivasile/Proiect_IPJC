@@ -176,8 +176,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acb1403e653615249bce085f0ba617ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
-  health: 50
+  maxHealth: 50
+  currentHealth: 50
+  speed: 100
+  lifeSteal: 0
+  damage: 100
+  atackSpeed: 100
+  critChance: 10
+  range: 100
+  armor: 0
+  dodgeChance: 10
+  harvesting: 100
+  coins: 0
 --- !u!212 &93027043
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -33653,7 +33663,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!156049354 &1601745520
 Grid:
   m_ObjectHideFlags: 0
