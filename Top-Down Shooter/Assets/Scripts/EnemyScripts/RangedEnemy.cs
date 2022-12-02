@@ -24,6 +24,10 @@ public class RangedEnemy : BaseEnemy
     public Transform attackUp;
     public Transform attackRight;
 
+    [Header("Projectile")]
+    public GameObject bullet;
+    public float bulletSpeed;
+
     private float distanceToPlayer;
     private AttackDirection attackDirection;
     public RangedEnemy() : base() {
@@ -55,6 +59,7 @@ public class RangedEnemy : BaseEnemy
             Run();
         }
         else if (distanceToPlayer <= attackRange) {
+            Shoot();
             return;
         }
         else {
@@ -79,6 +84,36 @@ public class RangedEnemy : BaseEnemy
         rb.velocity = moveDirection * followSpeed;
     }
 
+    public void Shoot() {
+        Rigidbody2D bulletRb = null;
+        Vector2 bulletDirection;
+        
+        if (attackDirection == AttackDirection.Down)
+        {
+            bulletRb = (Instantiate(bullet, attackDown.transform.position, Quaternion.identity) as GameObject).GetComponent<Rigidbody2D>();
+        }
+        else if (attackDirection == AttackDirection.Left)
+        {
+            bulletRb = (Instantiate(bullet, attackLeft.transform.position, Quaternion.identity) as GameObject).GetComponent<Rigidbody2D>();
+        }
+        else if (attackDirection == AttackDirection.Up)
+        {
+            bulletRb = (Instantiate(bullet, attackUp.transform.position, Quaternion.identity) as GameObject).GetComponent<Rigidbody2D>();
+        }
+        else if (attackDirection == AttackDirection.Right)
+        {
+            bulletRb = (Instantiate(bullet, attackRight.transform.position, Quaternion.identity) as GameObject).GetComponent<Rigidbody2D>();
+        }
+
+
+        Vector3 targetPosition = new Vector3(player.transform.position.x - bulletRb.transform.position.x, player.transform.position.y - bulletRb.transform.position.y, 0f);
+
+
+        bulletRb.transform.up = targetPosition;
+        bulletDirection =(player.transform.position - transform.position).normalized;
+        bulletRb.AddForce(bulletDirection * bulletSpeed);
+    }
+
     public void CalculateDistanceToPlayer() {
         Vector2 playerPosition = new Vector2(player.transform.position.x, player.transform.position.y);
         distanceToPlayer = Vector2.Distance(playerPosition, transform.position);
@@ -87,7 +122,7 @@ public class RangedEnemy : BaseEnemy
     public void SetAttackDirection() {
         float minDistance;
         int minDistanceIndex;
-        
+
         Vector2 playerPosition = new Vector2(player.transform.position.x, player.transform.position.y);
 
 
