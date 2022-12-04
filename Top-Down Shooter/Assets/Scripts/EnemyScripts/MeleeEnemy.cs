@@ -18,9 +18,7 @@ public class MeleeEnemy : BaseEnemy
     {
         base.Update();
 
-        if (knockbackTimer <= 0f) {
-            Follow();
-        }
+        Follow();
     }
 
     public void Follow() {

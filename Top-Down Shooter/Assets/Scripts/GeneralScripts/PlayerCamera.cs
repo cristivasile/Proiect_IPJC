@@ -14,9 +14,9 @@ public class PlayerCamera : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void FixedUpdate()
     {
-        transform.rotation = Quaternion.Euler(Vector3.zero);
-        transform.position = player.transform.position + new Vector3(0, 0, -cameraHeight);
+        transform.position = Vector3.Lerp(transform.position, player.transform.position, Time.fixedDeltaTime * 10);
+        transform.position = new Vector3(transform.position.x, transform.position.y, -cameraHeight);
     }
 }

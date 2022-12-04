@@ -47,7 +47,7 @@ public class RangedEnemy : BaseEnemy
     new void Update()
     {
         base.Update();
-
+        
         SetAttackDirection();
         CalculateDistanceToPlayer();
         TickAttackTimer();

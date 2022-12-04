@@ -6,9 +6,16 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    Rigidbody2D rb;
+    public PlayerVisuals playerVisuals;
+    public HealthBar healthBar;
+
+    // --- Player movement ---
+    Vector2 movement;
+
     //stats for health
-    public float maxHealth = 50f;
-    public float currentHealth = 50f;
+    public float maxHealth = 100f;
+    public float currentHealth;
 
     //rest of the stats in percentage
     public float speed = 100f;
@@ -23,35 +30,36 @@ public class PlayerController : MonoBehaviour
 
     public float coins = 0f;
 
-    private Rigidbody2D rb;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        currentHealth = maxHealth;
+        healthBar.SetMaxHealth(maxHealth);
     }
 
     private void Update()
     {
-        this.transform.rotation = Utils.GetRelativeRotation(transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition));
-        MovePlayer();
+        movement.x = Input.GetAxisRaw("Horizontal");
+        movement.y = Input.GetAxisRaw("Vertical");
 
+        playerVisuals.ChangeFacingDirection(movement.x);
+
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            TakeDamage(10);
+        }
     }
 
-    private void MovePlayer()
+    private void FixedUpdate()
     {
-        var horizontalInput = Input.GetAxisRaw("Horizontal");
-        var verticalInput = Input.GetAxisRaw("Vertical");
-
-        rb.velocity = new Vector3(horizontalInput * 5 * speed / 100, verticalInput * 5 * speed / 100, 0);
+        Vector2 direction = movement.normalized;
+        rb.MovePosition(rb.position + direction * speed / 100 * 5f * Time.fixedDeltaTime);
     }
 
-    public void Heal(float healPoints)
+    // Player damage
+    public void TakeDamage(float damage)
     {
-        currentHealth += healPoints;
-        currentHealth = Math.Min(maxHealth, currentHealth);
-    }
-
-    public void TakeDamage(float damage) {
         System.Random random = new();
         var rng = random.Next(0, 100);
 
@@ -68,17 +76,25 @@ public class PlayerController : MonoBehaviour
                 damage *= (2 - 100 / (100 - armor));
             }
             
-            currentHealth -= damage;
+        currentHealth -= damage;
+        healthBar.SetHealth(currentHealth);
 
-            if (currentHealth <= 0f)
-            {
-                Die();
-            }
+        if (currentHealth <= 0f)
+        {
+            Die();
         }
     }
-
-    private void Die() {
-        Destroy(gameObject);
+    
+    // Player healing
+    public void Heal(float healPoints)
+    {
+        currentHealth += healPoints;
+        currentHealth = Math.Min(maxHealth, currentHealth);
     }
 
+    // Player death
+    private void Die()
+    {
+        Destroy(gameObject);
+    }
 }
