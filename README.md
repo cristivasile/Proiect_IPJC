@@ -1,6 +1,6 @@
 ## **Proiect_IPJC**
 
-Mai multe detalii in - https://trello.com/invite/b/N3kFpDQy/ATTI63629c0852f84ef1264d9fae40afeac516DFC0AF/optional-jocuri -
+Mai multe detalii pe board-ul de [Trello](https://trello.com/b/N3kFpDQy/optional-jocuri).
 
 *ID : 5 -- GRUPA : 331*
 - Cuciureanu Dragos Adrian
