@@ -28,9 +28,7 @@ public class RangedEnemy : BaseEnemy
     {
         base.Update();
 
-        if (knockbackTimer <= 0f) {
-            Move();
-        }
+        Move();
     }
 
     public void CalculateDistanceToPlayer() {

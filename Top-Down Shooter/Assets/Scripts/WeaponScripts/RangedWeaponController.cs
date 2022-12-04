@@ -34,7 +34,6 @@ public class RangedWeaponController : MonoBehaviour
     private void Shoot()
     {
         GameObject shot = Instantiate(bullet, barrel.position, barrel.rotation);
-        shot.GetComponent<BulletController>().shotFrom = player.transform;
         shot.GetComponent<Rigidbody2D>().velocity = barrel.up * weapon.bulletSpeed;
     }
 }

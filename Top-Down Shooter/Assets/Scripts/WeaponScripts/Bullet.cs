@@ -4,8 +4,24 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    public void OnCollisionEnter2D(Collision2D collision)
+    public float damage = 10f;
+    public int piercing = 0;
+
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        Destroy(gameObject);
+        if (collision.gameObject.CompareTag("Wall"))
+            Destroy(gameObject);
+
+        BaseEnemy enemy = collision.GetComponent<BaseEnemy>();
+        if (enemy != null)
+        {
+            if (piercing == 0)
+            {
+                enemy.TakeDamage(damage);
+                Destroy(gameObject);
+            }
+            else
+                piercing--;
+        }
     }
 }

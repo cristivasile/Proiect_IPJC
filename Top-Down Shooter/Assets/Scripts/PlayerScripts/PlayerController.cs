@@ -3,65 +3,48 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public float moveSpeed = 8.0f;
-    public float health = 100.0f;
-    public Weapon weapon;
+    public float currentHealth, maxHealth = 100.0f;
     Rigidbody2D rb;
-    
-    // --- Player movement ---
-    Vector2 moveDirection, mousePosition;
+    public PlayerVisuals playerVisuals;
+    public HealthBar healthBar;
 
-    // --- Player rotation ---
-    public float maxTurnSpeed = 720f; // maximum rotation per second (in degrees)
-    public float smoothTime = 0.1f; // estimated time for the whole rotation (in seconds)
-    float angle, currentAngularVelocity;
+    // --- Player movement ---
+    Vector2 movement;
 
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        currentHealth = maxHealth;
+        healthBar.SetMaxHealth(maxHealth);
     }
 
     private void Update()
     {
-        // mouse position relative to the player
-        mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        movement.x = Input.GetAxisRaw("Horizontal");
+        movement.y = Input.GetAxisRaw("Vertical");
 
-        if (Input.GetMouseButtonDown(0))
+        playerVisuals.ChangeFacingDirection(movement.x);
+
+        if(Input.GetKeyDown(KeyCode.Space))
         {
-            weapon.Fire();
+            TakeDamage(10);
         }
     }
 
     private void FixedUpdate()
     {
-        UpdatePlayerMovement();
-        UpdatePlayerRotation();
-    }
-
-
-    private void UpdatePlayerMovement()
-    {
-        var moveX = Input.GetAxisRaw("Horizontal");
-        var moveY = Input.GetAxisRaw("Vertical");
-
-        moveDirection = new Vector2(moveX, moveY).normalized;
-        rb.velocity = moveDirection * moveSpeed;
-    }
-
-    private void UpdatePlayerRotation()
-    {
-        Vector2 aimDirection = mousePosition - rb.position;
-        float targetAngle = Vector2.SignedAngle(Vector2.up, aimDirection); // returns the angle in degrees (-180, 180)
-        
-        angle = Mathf.SmoothDampAngle(angle, targetAngle, ref currentAngularVelocity, smoothTime, maxTurnSpeed); // similar to Quaternion.Lerp()
-        rb.rotation = angle;
+        Vector2 direction = movement.normalized;
+        rb.MovePosition(rb.position + direction * moveSpeed * Time.fixedDeltaTime);
     }
 
     // Player damage
     public void TakeDamage(float damage)
     {
-        health -= damage;
-        if (health <= 0f)
+        currentHealth -= damage;
+        healthBar.SetHealth(currentHealth);
+
+        if (currentHealth <= 0f)
         {
             Die();
         }
