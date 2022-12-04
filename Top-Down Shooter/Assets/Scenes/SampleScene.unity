@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 93027045}
   m_Layer: 0
   m_Name: PlayerVisuals
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -183,7 +183,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
-  m_Color: {r: 0.9056604, g: 0.26711324, b: 0.2264151, a: 1}
+  m_Color: {r: 0.90588236, g: 0.34042177, b: 0.22745097, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -713,7 +713,7 @@ GameObject:
   - component: {fileID: 516569555}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -767,11 +767,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acb1403e653615249bce085f0ba617ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 8
-  currentHealth: 100
-  maxHealth: 100
   playerVisuals: {fileID: 93027045}
   healthBar: {fileID: 2141339993}
+  maxHealth: 100
+  currentHealth: 100
+  coins: 0
+  speed: 100
+  lifeSteal: 0
+  damage: 100
+  atackSpeed: 100
+  critChance: 10
+  range: 100
+  armor: 0
+  dodgeChance: 10
+  harvesting: 100
 --- !u!4 &516569558
 Transform:
   m_ObjectHideFlags: 0
@@ -1516,6 +1525,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxWeaponCount: 6
+  weaponsOffset: 4
   weapons: []
   pivot: {fileID: 516569558}
   weaponPrefab: {fileID: 5681786274403809939, guid: 8e4a8b7f64453c345bf22c6216973d16, type: 3}
@@ -1572,7 +1582,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: e7697f1ef67eb1b4284c77c3d4c651bf, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

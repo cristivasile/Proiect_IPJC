@@ -29,12 +29,11 @@ public class MeleeEnemy : BaseEnemy
         rb.velocity = moveDirection * speed;
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (other.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player"))
         {
-            other.GetComponentInParent<PlayerController>().TakeDamage(damage);
-
+            collision.gameObject.GetComponentInParent<PlayerController>().TakeDamage(damage);
         }
     }
 }

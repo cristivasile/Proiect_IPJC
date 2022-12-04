@@ -5,15 +5,10 @@ using UnityEngine;
 public class WeaponsController : MonoBehaviour
 {
     public int maxWeaponCount = 6;
+    public float weaponsOffset = 4f;
     public List<GameObject> weapons;
     public Transform pivot;
     public GameObject weaponPrefab;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()
@@ -36,7 +31,7 @@ public class WeaponsController : MonoBehaviour
             {
                 var weapon = weapons[i];
                 var angle = 360f / weapons.Count;
-                weapon.transform.localPosition = new Vector3(0, 4, 0);
+                weapon.transform.localPosition = Vector3.up * weaponsOffset;
                 weapon.transform.RotateAround(pivot.position, Vector3.forward, angle * i);
             }
         }

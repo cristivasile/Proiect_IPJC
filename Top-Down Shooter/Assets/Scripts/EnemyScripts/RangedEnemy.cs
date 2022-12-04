@@ -54,9 +54,7 @@ public class RangedEnemy : BaseEnemy
 
         Attack();
 
-        if (knockbackTimer <= 0f) {
-            Move();
-        }
+        Move();
     }
 
     public void Move() {

@@ -1,7 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.Mathematics;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -13,11 +9,18 @@ public class PlayerController : MonoBehaviour
     // --- Player movement ---
     Vector2 movement;
 
-    //stats for health
+    // stats for health
     public float maxHealth = 100f;
     public float currentHealth;
 
-    //rest of the stats in percentage
+    // stats for coins
+    public int coins = 0;
+
+    // default stats
+    private readonly float unitSpeed = 8f;
+    private readonly float maxDodgeChance = 60f;
+
+    // rest of the stats in percentages
     public float speed = 100f;
     public float lifeSteal = 0f;
     public float damage = 100f;
@@ -26,9 +29,7 @@ public class PlayerController : MonoBehaviour
     public float range = 100f;
     public float armor = 0f;
     public float dodgeChance = 10f;
-    public float harvesting = 100f;
-
-    public float coins = 0f;
+    public float harvesting = 100f; // multiplier for coins
 
 
     private void Start()
@@ -54,17 +55,16 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         Vector2 direction = movement.normalized;
-        rb.MovePosition(rb.position + direction * speed / 100 * 5f * Time.fixedDeltaTime);
+        rb.MovePosition(rb.position + direction * speed / 100 * unitSpeed * Time.fixedDeltaTime);
     }
 
     // Player damage
     public void TakeDamage(float damage)
     {
-        System.Random random = new();
-        var rng = random.Next(0, 100);
+        var randomValue = Random.Range(0f, 100f);
 
-        //determine if the hit connects due to dodge  chance
-        if (rng >= Math.Min(dodgeChance, 60))
+        //determine if the hit connects due to dodge chance
+        if (randomValue >= Mathf.Min(dodgeChance, maxDodgeChance))
         {
             //determine the actual damage taken
             if (armor >= 0)
@@ -73,28 +73,30 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                damage *= (2 - 100 / (100 - armor));
+                damage *= 2 - 100 / (100 - armor);
             }
-            
-        currentHealth -= damage;
-        healthBar.SetHealth(currentHealth);
 
-        if (currentHealth <= 0f)
-        {
-            Die();
+            currentHealth -= damage;
+            healthBar.SetHealth(currentHealth);
+
+            if (currentHealth <= 0f)
+            {
+                Die();
+            }
         }
     }
-    
+
     // Player healing
     public void Heal(float healPoints)
     {
         currentHealth += healPoints;
-        currentHealth = Math.Min(maxHealth, currentHealth);
+        currentHealth = Mathf.Min(maxHealth, currentHealth);
     }
 
     // Player death
+    // TODO change death event
     private void Die()
     {
-        Destroy(gameObject);
+        // Destroy(gameObject);
     }
 }

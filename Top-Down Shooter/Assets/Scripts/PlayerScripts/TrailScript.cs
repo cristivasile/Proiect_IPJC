@@ -17,10 +17,4 @@ public class TrailScript : MonoBehaviour
 
         trailRenderer.startColor = playerColor;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
