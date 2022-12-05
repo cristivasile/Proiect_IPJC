@@ -1,10 +1,12 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class EnemySpawner : MonoBehaviour
 {
     public List<GameObject> enemies;
+    public GameObject spawnMarker;
     public GameObject player;
 
     public GameObject leftBound;
@@ -13,14 +15,17 @@ public class EnemySpawner : MonoBehaviour
     public GameObject bottomBound;
 
     /// xOffset, yOffset
-    public static Vector2 minSpawnOffset = new(9, 5.5f);
-    public static Vector2 maxSpawnOffset = new(12, 8);
 
     public int maxEnemyCount = 10;
     /// <summary>
     /// Spawn interval in milliseconds
     /// </summary>
-    public const long enemySpawnInterval = 1000;
+    public const int enemySpawnInterval = 750;
+
+    /// <summary>
+    /// Time elapsed before the spawn marker dissapears and an enemy appears
+    /// </summary>
+    public const int spawnDelay = 1500;
     /// <summary>
     /// Ms elapsed since last enemy was spawned
     /// </summary>
@@ -50,13 +55,14 @@ public class EnemySpawner : MonoBehaviour
         System.Random random = new();
         var enemyIndex = random.Next(0, enemies.Count);
         GameObject newEnemy = Instantiate(enemies[enemyIndex]);
+        GameObject marker = Instantiate(spawnMarker);
 
         Vector3 enemyPosition;
         bool positionIsValid = true;
         //set position
         do
         {
-            enemyPosition = getRandomPosition(player.transform.position);
+            enemyPosition = GetRandomPosition(player.transform.position);
             //check if the position is valid
             if (leftBound != null && rightBound != null && topBound != null && bottomBound != null) 
                 //only check if the bounds are defined to prevent an infinite loop
@@ -65,10 +71,25 @@ public class EnemySpawner : MonoBehaviour
                 && enemyPosition.y > bottomBound.transform.position.y
                 && enemyPosition.y < topBound.transform.position.y);
         } while (!positionIsValid);
-        newEnemy.transform.position = enemyPosition;
+
+        CreateMarkerAndSpawn(newEnemy, marker, enemyPosition);
     }
 
-    private static Vector3 getRandomPosition(Vector3 playerPosition)
+    private async void CreateMarkerAndSpawn(GameObject enemy, GameObject marker, Vector3 position)
+    {
+        enemy.gameObject.SetActive(false);
+
+        marker.transform.position = position;
+
+        await Task.Delay(spawnDelay);
+
+        Destroy(marker.gameObject);
+
+        enemy.transform.position = position;
+        enemy.gameObject.SetActive(true);
+    }
+
+    private static Vector3 GetRandomPosition(Vector3 playerPosition)
     {
         System.Random random = new();
         var spawnOnVerticalAxis = random.Next(0, 2);

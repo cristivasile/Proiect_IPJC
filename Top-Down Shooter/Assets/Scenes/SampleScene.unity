@@ -1116,6 +1116,7 @@ MonoBehaviour:
   enemies:
   - {fileID: 950013594570341731, guid: 070906ce34233f14f91ff32bad923b67, type: 3}
   - {fileID: 4347165361591664469, guid: d8c1d1a83568020488803df2cbf2cb39, type: 3}
+  spawnMarker: {fileID: 7232300103142414158, guid: 4cc69204949808a46a2e39aab32ddbb5, type: 3}
   player: {fileID: 516569554}
   leftBound: {fileID: 379081443}
   rightBound: {fileID: 1470532362}

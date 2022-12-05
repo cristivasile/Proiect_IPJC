@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5256582244626035283}
   m_Layer: 0
-  m_Name: SpawnMarker
+  m_Name: SpawnMarkerPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
