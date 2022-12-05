@@ -15,6 +15,8 @@ public class EnemySpawner : MonoBehaviour
     public GameObject bottomBound;
 
     /// xOffset, yOffset
+    public static Vector2 minSpawnOffset = new(2f, 5.5f);
+    public static Vector2 maxSpawnOffset = new(2f, 8f);
 
     public int maxEnemyCount = 10;
     /// <summary>
