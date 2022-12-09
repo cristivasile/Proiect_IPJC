@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 247c6792d9aa79044b94b0a4b31a6c24
+guid: 361ce78f5feb4994283b5005ba1b01cb
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -47,7 +47,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 0
   alphaUsage: 1
@@ -117,13 +117,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: redCross
+      name: Tree1
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 512
-        height: 512
+        y: 11
+        width: 16
+        height: 37
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -131,8 +131,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 06095acf000c8d44e944f5360fa1bb84
-      internalID: -1790549482
+      spriteID: 8a4c2fdd5d1802249aeb1b64097bee10
+      internalID: 1822808512
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      redCross: -1790549482
+      Tree1: 1822808512
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

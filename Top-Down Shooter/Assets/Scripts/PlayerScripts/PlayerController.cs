@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
     public int coins = 0;
 
     // default stats
-    private readonly float unitSpeed = 8f;
+    private readonly float unitSpeed = 5f;
     private readonly float maxDodgeChance = 60f;
 
     // rest of the stats in percentages
