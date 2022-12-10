@@ -6,11 +6,13 @@ public class Weapon : MonoBehaviour
 {
     public GameObject bulletPrefab;
     public Transform firePoint;
-    public float fireForce = 20f;
-    public float bulletDamage = 10f;
-    public int bulletPierce = 0;
-    public float fireRate = 5f;
-    private float lastShot = 0f;
+
+    // stats
+    public float fireForce;
+    public float bulletDamage;
+    public int bulletPierce;
+    public float fireRate;
+    private float lastShot;
 
     Vector3 mousePosition;
     Vector2 aimDirection;
@@ -19,6 +21,16 @@ public class Weapon : MonoBehaviour
     public float maxTurnSpeed = 720f; // maximum rotation per second (in degrees)
     public float smoothTime = 0.05f; // estimated time for the whole rotation (in seconds)
     private float angle, currentAngularVelocity;
+
+    private void Start()
+    {
+        // implementing the values foir stats
+        fireForce = 20f;
+        bulletDamage = 10f;
+        bulletPierce = 0;
+        fireRate = 5f;
+        lastShot = 0f;
+    }
 
     private void Update()
     {
@@ -53,9 +65,11 @@ public class Weapon : MonoBehaviour
     public void Shoot()
     {
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation * Quaternion.Euler(0, 0, 90));
+
         Bullet bulletScript = bullet.GetComponent<Bullet>();
         bulletScript.damage = bulletDamage;
         bulletScript.pierce = bulletPierce;
+
         Rigidbody2D bulletRb = bullet.GetComponent<Rigidbody2D>();
         bulletRb.AddForce(firePoint.right * fireForce, ForceMode2D.Impulse);
     }

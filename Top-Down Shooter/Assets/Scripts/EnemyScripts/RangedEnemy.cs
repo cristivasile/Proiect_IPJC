@@ -178,4 +178,24 @@ public class RangedEnemy : BaseEnemy
         if (attackTimer > 0f) attackTimer -= Time.deltaTime;
     }
 
+    /// <summary>
+    /// Should be called on death.
+    /// </summary>
+    protected override void Die()
+    {
+        Destroy(gameObject);
+        instances--;
+
+        // add coins to player
+        player.GetComponent<PlayerController>().AddCoins(3);
+
+        // determine if the player receives health via life steal
+        var randomValue = Random.Range(0f, 100f);
+
+        if (randomValue < player.GetComponent<PlayerController>().lifeSteal)
+        {
+            player.GetComponent<PlayerController>().Heal(1);
+        }
+    }
+
 }

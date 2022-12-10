@@ -12,7 +12,7 @@ public class BaseEnemy : MonoBehaviour
 
     protected Rigidbody2D rb;
 
-    private static int instances = 0;
+    protected static int instances = 0;
 
 
     protected BaseEnemy()
@@ -52,7 +52,7 @@ public class BaseEnemy : MonoBehaviour
     /// <summary>
     /// Should be called on death.
     /// </summary>
-    protected void Die()
+    protected virtual void Die()
     {
         Destroy(gameObject);
         instances--;

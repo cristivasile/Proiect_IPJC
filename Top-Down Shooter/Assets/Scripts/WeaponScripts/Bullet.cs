@@ -21,7 +21,9 @@ public class Bullet : MonoBehaviour
                 Destroy(gameObject);
             }
             else
+            {
                 pierce--;
+            }
         }
     }
 }
