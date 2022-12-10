@@ -21,7 +21,8 @@ public class MeleeEnemy : BaseEnemy
         Follow();
     }
 
-    public void Follow() {
+    public void Follow() 
+    {
         Vector2 moveDirection;
         moveDirection = player.transform.position - transform.position;
         moveDirection.Normalize();
@@ -36,4 +37,25 @@ public class MeleeEnemy : BaseEnemy
             collision.gameObject.GetComponentInParent<PlayerController>().TakeDamage(damage);
         }
     }
+
+    /// <summary>
+    /// Should be called on death.
+    /// </summary>
+    protected override void Die()
+    {
+        Destroy(gameObject);
+        instances--;
+
+        // add coins to player
+        player.GetComponent<PlayerController>().AddCoins(2);
+
+        // determine if the player receives health via life steal
+        var randomValue = Random.Range(0f, 100f);
+
+        if (randomValue < player.GetComponent<PlayerController>().lifeSteal)
+        {
+            player.GetComponent<PlayerController>().Heal(1);
+        }
+    }
+
 }
