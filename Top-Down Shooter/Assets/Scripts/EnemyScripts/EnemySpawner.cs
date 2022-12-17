@@ -1,13 +1,12 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 public class EnemySpawner : MonoBehaviour
 {
-    public List<GameObject> enemies;
-    public GameObject spawnMarker;
-    public GameObject player;
+    public List<GameObject> enemyPrefabs;
+    public GameObject spawnMarkerPrefab;
+    public Transform player;
 
     public GameObject leftBound;
     public GameObject rightBound;
@@ -33,19 +32,12 @@ public class EnemySpawner : MonoBehaviour
     /// </summary>
     float lastSpawnInterval = enemySpawnInterval + 1;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        //set player reference
-        BaseEnemy.player = player;
-    }
-
     // Update is called once per frame
     void Update()
     {
          lastSpawnInterval += Time.deltaTime * 1000;
         if (lastSpawnInterval > enemySpawnInterval && 
-            BaseEnemy.GetNumberOfInstances() < maxEnemyCount)
+            Enemy.GetNumberOfInstances() < maxEnemyCount)
         {
             lastSpawnInterval = 0;
             Spawn();
@@ -55,16 +47,17 @@ public class EnemySpawner : MonoBehaviour
     private void Spawn()
     {
         System.Random random = new();
-        var enemyIndex = random.Next(0, enemies.Count);
-        GameObject newEnemy = Instantiate(enemies[enemyIndex]);
-        GameObject marker = Instantiate(spawnMarker);
+        var enemyIndex = random.Next(0, enemyPrefabs.Count);
+        GameObject newEnemy = Instantiate(enemyPrefabs[enemyIndex]);
+        newEnemy.GetComponent<EnemyAI>().player = player;
+        GameObject marker = Instantiate(spawnMarkerPrefab);
 
         Vector3 enemyPosition;
         bool positionIsValid = true;
         //set position
         do
         {
-            enemyPosition = GetRandomPosition(player.transform.position);
+            enemyPosition = GetRandomPosition(player.position);
             //check if the position is valid
             if (leftBound != null && rightBound != null && topBound != null && bottomBound != null) 
                 //only check if the bounds are defined to prevent an infinite loop
@@ -79,16 +72,16 @@ public class EnemySpawner : MonoBehaviour
 
     private async void CreateMarkerAndSpawn(GameObject enemy, GameObject marker, Vector3 position)
     {
-        enemy.gameObject.SetActive(false);
+        enemy.SetActive(false);
 
         marker.transform.position = position;
 
         await Task.Delay(spawnDelay);
 
-        Destroy(marker.gameObject);
+        Destroy(marker);
 
         enemy.transform.position = position;
-        enemy.gameObject.SetActive(true);
+        enemy.SetActive(true);
     }
 
     private static Vector3 GetRandomPosition(Vector3 playerPosition)

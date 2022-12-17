@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class Utils
 {
-    public static Quaternion GetRelativeRotation(Vector3 origin, Vector3 target)
+    public static Quaternion GetRelativeRotation(Vector2 origin, Vector2 target)
     {
         var orientation = target - origin;
         var angle = -Mathf.Atan2(orientation.x, orientation.y) * Mathf.Rad2Deg;

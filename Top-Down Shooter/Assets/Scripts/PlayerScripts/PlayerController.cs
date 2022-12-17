@@ -3,18 +3,12 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     Rigidbody2D rb;
+
     public PlayerVisuals playerVisuals;
-    public HealthBar healthBar;
+    public Health health;
+    public Coins coins;
 
-    // --- Player movement ---
     Vector2 movement;
-
-    // stats for health
-    public float maxHealth = 100f;
-    public float currentHealth;
-
-    // stats for coins
-    public int coins = 0;
 
     // default stats
     private readonly float unitSpeed = 5f;
@@ -35,8 +29,6 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        currentHealth = maxHealth;
-        healthBar.SetMaxHealth(maxHealth);
     }
 
     private void Update()
@@ -45,11 +37,6 @@ public class PlayerController : MonoBehaviour
         movement.y = Input.GetAxisRaw("Vertical");
 
         playerVisuals.ChangeFacingDirection(movement.x);
-
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            TakeDamage(10);
-        }
     }
 
     private void FixedUpdate()
@@ -59,7 +46,7 @@ public class PlayerController : MonoBehaviour
     }
 
     // Player damage
-    public void TakeDamage(float damage)
+    public void ApplyDamage(float damageAmount)
     {
         var randomValue = Random.Range(0f, 100f);
 
@@ -69,34 +56,29 @@ public class PlayerController : MonoBehaviour
             //determine the actual damage taken
             if (armor >= 0)
             {
-                damage *= 100 / (100 + armor);
+                damageAmount *= 100 / (100 + armor);
             }
             else
             {
-                damage *= 2 - 100 / (100 - armor);
+                damageAmount *= 2 - 100 / (100 - armor);
             }
 
-            currentHealth -= damage;
-            healthBar.SetHealth(currentHealth);
-
-            if (currentHealth <= 0f)
-            {
-                Die();
-            }
+            health.Damage(damageAmount);
         }
     }
 
     // Player healing
-    public void Heal(float healPoints)
+    public void ApplyHeal(float healAmount)
     {
-        currentHealth += healPoints;
-        currentHealth = Mathf.Min(maxHealth, currentHealth);
+        health.Heal(healAmount);
     }
+
 
     // Player death
     // TODO change death event
-    private void Die()
+    public void Die()
     {
         // Destroy(gameObject);
+        Debug.Log("Player died!");
     }
 }
