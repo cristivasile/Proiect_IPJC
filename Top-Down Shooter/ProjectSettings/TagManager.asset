@@ -8,6 +8,9 @@ TagManager:
   - Enemy
   - Bullet
   - Weapon
+  - Coin
+  - Magnet
+  - CoinCollect
   layers:
   - Default
   - TransparentFX
@@ -42,6 +45,15 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Background
+    uniqueID: 473127297
+    locked: 0
+  - name: Collectables
+    uniqueID: 1763964735
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Foreground
+    uniqueID: 3411444297
     locked: 0

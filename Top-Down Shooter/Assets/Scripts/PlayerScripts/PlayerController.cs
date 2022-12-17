@@ -3,21 +3,15 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     Rigidbody2D rb;
-    public PlayerVisuals playerVisuals;
-    public HealthBar healthBar;
 
-    // --- Player movement ---
+    public PlayerVisuals playerVisuals;
+    public Health health;
+    public Coins coins;
+
     Vector2 movement;
 
-    // stats for health
-    public float maxHealth;
-    public float currentHealth;
-
-    // stats for coins
-    public int coins;
-
     // default stats
-    private readonly float unitSpeed = 8f;
+    private readonly float unitSpeed = 5f;
     private readonly float maxDodgeChance = 60f;
 
     // rest of the stats in percentages
@@ -34,15 +28,6 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-
-        //health stats assigned
-        maxHealth = 100f;
-        currentHealth = maxHealth;
-
-        healthBar.SetMaxHealth(maxHealth);
-
-        // stats for coins
-        coins = 0;
 
         // rest of the stats in percentages
         speed = 100f;
@@ -61,11 +46,6 @@ public class PlayerController : MonoBehaviour
         movement.y = Input.GetAxisRaw("Vertical");
 
         playerVisuals.ChangeFacingDirection(movement.x);
-
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            TakeDamage(10);
-        }
     }
 
     private void FixedUpdate()
@@ -75,7 +55,7 @@ public class PlayerController : MonoBehaviour
     }
 
     // Player damage
-    public void TakeDamage(float damage)
+    public void ApplyDamage(float damageAmount)
     {
         var randomValue = Random.Range(0f, 100f);
 
@@ -85,48 +65,28 @@ public class PlayerController : MonoBehaviour
             //determine the actual damage taken
             if (armor >= 0)
             {
-                damage *= 100 / (100 + armor);
+                damageAmount *= 100 / (100 + armor);
             }
             else
             {
-                damage *= 2 - 100 / (100 - armor);
+                damageAmount *= 2 - 100 / (100 - armor);
             }
 
-            currentHealth -= damage;
-            healthBar.SetHealth(currentHealth);
-
-            if (currentHealth <= 0f)
-            {
-                Die();
-            }
+            health.Damage(damageAmount);
         }
     }
 
     // Player healing
-    public void Heal(float healPoints)
+    public void ApplyHeal(float healAmount)
     {
-        currentHealth += healPoints;
-        currentHealth = Mathf.Min(maxHealth, currentHealth);
-    }
-
-    // Player getting coins on enemy kills
-    // If the rng < harvesting you receive double coins
-    public void AddCoins(int additionalCoins)
-    {
-        var randomValue = Random.Range(0f, 100f);
-
-        if(randomValue < harvesting)
-        {
-            additionalCoins *= 2;
-        }
-
-        coins += additionalCoins;
+        health.Heal(healAmount);
     }
 
     // Player death
     // TODO change death event
-    private void Die()
+    public void Die()
     {
         // Destroy(gameObject);
+        Debug.Log("Player died!");
     }
 }
