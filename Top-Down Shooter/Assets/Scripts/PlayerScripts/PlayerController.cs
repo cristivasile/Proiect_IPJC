@@ -15,20 +15,29 @@ public class PlayerController : MonoBehaviour
     private readonly float maxDodgeChance = 60f;
 
     // rest of the stats in percentages
-    public float speed = 100f;
-    public float lifeSteal = 0f;
-    public float damage = 100f;
-    public float atackSpeed = 100f;
-    public float critChance = 10f;
-    public float range = 100f;
-    public float armor = 0f;
-    public float dodgeChance = 10f;
-    public float harvesting = 100f; // multiplier for coins
+    public float speed;
+    public float lifeSteal;
+    public float damage;
+    public float atackSpeed;
+    public float critChance;
+    public float armor;
+    public float dodgeChance;
+    public float harvesting; // multiplier for coins
 
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+
+        // rest of the stats in percentages
+        speed = 100f;
+        lifeSteal = 0f;
+        damage = 100f;
+        atackSpeed = 100f;
+        critChance = 10f;
+        armor = 0f;
+        dodgeChance = 10f;
+        harvesting = 0f;
     }
 
     private void Update()
@@ -72,7 +81,6 @@ public class PlayerController : MonoBehaviour
     {
         health.Heal(healAmount);
     }
-
 
     // Player death
     // TODO change death event

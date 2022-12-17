@@ -41,7 +41,7 @@ public class Enemy : MonoBehaviour
     /// <summary>
     /// Should be called on death.
     /// </summary>
-    protected void Die()
+    protected virtual void Die()
     {
         for(int i = 0; i < enemyValue; i++)
         {
