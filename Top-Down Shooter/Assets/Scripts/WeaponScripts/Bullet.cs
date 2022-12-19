@@ -14,11 +14,10 @@ public class Bullet : MonoBehaviour
             var enemy = collision.GetComponent<Enemy>();
             if (enemy != null)
             {
+                enemy.TakeDamage(damage);
+
                 if (pierce == 0)
-                {
-                    enemy.TakeDamage(damage);
                     Destroy(gameObject);
-                }
                 else
                     pierce--;
             }

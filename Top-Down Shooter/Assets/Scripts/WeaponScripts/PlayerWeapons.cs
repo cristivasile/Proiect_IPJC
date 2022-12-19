@@ -4,18 +4,21 @@ using UnityEngine;
 
 public class PlayerWeapons : MonoBehaviour
 {
+    public PlayerStats stats;
+
     public int maxWeaponCount = 6;
     public float weaponsOffset = 4f;
     public List<GameObject> weapons;
+    public List<GameObject> weaponPrefabs;
     public Transform pivot;
-    public GameObject weaponPrefab;
+
 
     // Update is called once per frame
     void Update()
     {
         if(Input.GetButtonDown("Fire2"))
         {
-            AddWeapon(weaponPrefab);
+            AddWeapon(weaponPrefabs[Random.Range(0, weaponPrefabs.Count)]);
         }
     }
 

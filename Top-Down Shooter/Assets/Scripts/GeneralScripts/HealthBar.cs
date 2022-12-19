@@ -12,23 +12,15 @@ public class HealthBar : MonoBehaviour
     [SerializeField]
     public Gradient gradient;
 
-    private void OnEnable()
+    private void Start()
     {
-        // subscribes to the _health.OnChange action
-        // calls UpdateBar() each time OnChange is invoked
-        _health.OnChange += UpdateBar;
+        _slider.minValue = 0f;
+        _slider.maxValue = _health.Initial;
     }
 
-    private void OnDisable ()
+    public void UpdateBar()
     {
-        // unsubscribes from the _health.OnChange action
-        _health.OnChange -= UpdateBar;
-    }
-
-
-    private void UpdateBar()
-    {
-        _slider.value = _health.Ratio;
+        _slider.value = _health.Current;
         _fillImage.color = gradient.Evaluate(_slider.normalizedValue);
     }
 }

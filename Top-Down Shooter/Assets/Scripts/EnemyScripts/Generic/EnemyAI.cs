@@ -50,7 +50,14 @@ public abstract class EnemyAI : MonoBehaviour
             }
             else
             {
-                Vector2 direction = player.position - transform.position;
+                Vector3 direction = player.position - transform.position;
+                foreach (var enemyAi in FindObjectsOfType<EnemyAI>())
+                {
+                    if(Vector3.Distance(enemyAi.transform.position, transform.position) < 1f)
+                    {
+                        direction -= (enemyAi.transform.position - transform.position).normalized * 0.8f;
+                    }
+                }
                 OnMovementInput?.Invoke(direction.normalized);
             }
         }

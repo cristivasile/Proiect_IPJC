@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 public abstract class Progressive : MonoBehaviour
 {
@@ -7,6 +8,8 @@ public abstract class Progressive : MonoBehaviour
     private float _initial;
     [SerializeField]
     private float _current;
+
+    
 
     public float Current
     {
@@ -31,10 +34,10 @@ public abstract class Progressive : MonoBehaviour
 
     public float Ratio => _current / _initial;
 
-    public Action OnChange;
+    public UnityEvent OnChange;
 
     private void Awake()
     {
-        _current = _initial;
+        Current = Initial;
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 
 public class Weapon : MonoBehaviour
@@ -8,29 +9,22 @@ public class Weapon : MonoBehaviour
     public Transform firePoint;
 
     // stats
-    public float fireForce;
-    public float bulletDamage;
-    public int bulletPierce;
-    public float fireRate;
-    private float lastShot;
+    public float fireForce = 20f;
+    public float bulletDamage = 10f;
+    public int bulletPierce = 0;
+    public int bulletCount = 1;
+    public float spread = 0f;
+    public float inaccuracy = 0f;
+    public float fireRate = 5f;
+    private float lastShot = 0f;
 
     Vector3 mousePosition;
     Vector2 aimDirection;
 
-    // --- Player rotation ---
+    // --- Weapon rotation ---
     public float maxTurnSpeed = 720f; // maximum rotation per second (in degrees)
     public float smoothTime = 0.05f; // estimated time for the whole rotation (in seconds)
-    private float angle, currentAngularVelocity;
-
-    private void Start()
-    {
-        // implementing the values foir stats
-        fireForce = 20f;
-        bulletDamage = 10f;
-        bulletPierce = 0;
-        fireRate = 5f;
-        lastShot = 0f;
-    }
+    float angle, currentAngularVelocity;
 
     private void Update()
     {
@@ -64,12 +58,17 @@ public class Weapon : MonoBehaviour
 
     public void Shoot()
     {
-        GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
-        Bullet bulletScript = bullet.GetComponent<Bullet>();
-        bulletScript.damage = bulletDamage;
-        bulletScript.pierce = bulletPierce;
+        for (int i = 0; i < bulletCount; i++)
+        {
+            var bulletGO = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+            bulletGO.transform.rotation = Quaternion.RotateTowards(bulletGO.transform.rotation, Random.rotation, spread + 2 * inaccuracy);
 
-        Rigidbody2D bulletRb = bullet.GetComponent<Rigidbody2D>();
-        bulletRb.AddForce(firePoint.right * fireForce, ForceMode2D.Impulse);
+            var bullet = bulletGO.GetComponent<Bullet>();
+            bullet.damage = bulletDamage;
+            bullet.pierce = bulletPierce;
+
+            var bulletRb = bullet.GetComponent<Rigidbody2D>();
+            bulletRb.AddForce(bullet.transform.right * fireForce, ForceMode2D.Impulse);
+        }
     }
 }

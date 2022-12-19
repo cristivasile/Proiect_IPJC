@@ -4,40 +4,17 @@ public class PlayerController : MonoBehaviour
 {
     Rigidbody2D rb;
 
-    public PlayerVisuals playerVisuals;
+    public PlayerVisuals visuals;
+    public PlayerStats stats;
+
     public Health health;
     public Coins coins;
 
     Vector2 movement;
 
-    // default stats
-    private readonly float unitSpeed = 5f;
-    private readonly float maxDodgeChance = 60f;
-
-    // rest of the stats in percentages
-    public float speed;
-    public float lifeSteal;
-    public float damage;
-    public float atackSpeed;
-    public float critChance;
-    public float armor;
-    public float dodgeChance;
-    public float harvesting; // multiplier for coins
-
-
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-
-        // rest of the stats in percentages
-        speed = 100f;
-        lifeSteal = 0f;
-        damage = 100f;
-        atackSpeed = 100f;
-        critChance = 10f;
-        armor = 0f;
-        dodgeChance = 10f;
-        harvesting = 0f;
     }
 
     private void Update()
@@ -45,13 +22,13 @@ public class PlayerController : MonoBehaviour
         movement.x = Input.GetAxisRaw("Horizontal");
         movement.y = Input.GetAxisRaw("Vertical");
 
-        playerVisuals.ChangeFacingDirection(movement.x);
+        visuals.ChangeFacingDirection(movement.x);
     }
 
     private void FixedUpdate()
     {
         Vector2 direction = movement.normalized;
-        rb.MovePosition(rb.position + direction * speed / 100 * unitSpeed * Time.fixedDeltaTime);
+        rb.MovePosition(rb.position + direction * stats.speed / 100 * stats.unitSpeed * Time.fixedDeltaTime);
     }
 
     // Player damage
@@ -60,16 +37,16 @@ public class PlayerController : MonoBehaviour
         var randomValue = Random.Range(0f, 100f);
 
         //determine if the hit connects due to dodge chance
-        if (randomValue >= Mathf.Min(dodgeChance, maxDodgeChance))
+        if (randomValue >= Mathf.Min(stats.dodgeChance, stats.maxDodgeChance))
         {
             //determine the actual damage taken
-            if (armor >= 0)
+            if (stats.armor >= 0)
             {
-                damageAmount *= 100 / (100 + armor);
+                damageAmount *= 100 / (100 + stats.armor);
             }
             else
             {
-                damageAmount *= 2 - 100 / (100 - armor);
+                damageAmount *= 2 - 100 / (100 - stats.armor);
             }
 
             health.Damage(damageAmount);

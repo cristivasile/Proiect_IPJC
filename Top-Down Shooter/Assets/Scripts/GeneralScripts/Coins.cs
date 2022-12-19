@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Coins : MonoBehaviour
 {
@@ -19,7 +20,7 @@ public class Coins : MonoBehaviour
         }
     }
 
-    public Action OnChange;
+    public UnityEvent OnChange;
 
 
     public void AddAmount(int amount)
