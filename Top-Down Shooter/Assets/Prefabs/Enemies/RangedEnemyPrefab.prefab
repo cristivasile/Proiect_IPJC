@@ -132,6 +132,45 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bba42df5309d40e47bdf881e260f9ce0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6229735560683173668}
+        m_TargetAssemblyTypeName: Enemy, Assembly-CSharp
+        m_MethodName: DropCoins
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 6229735560683173668}
+        m_TargetAssemblyTypeName: Enemy, Assembly-CSharp
+        m_MethodName: ApplyLifeSteal
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 6229735560683173668}
+        m_TargetAssemblyTypeName: Enemy, Assembly-CSharp
+        m_MethodName: Destroy
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   enemyValue: 3
   coinPrefab: {fileID: 9300382593228084, guid: 5b5c5862a17652b4fa34b6551f89be0a, type: 3}
   _rangedAI: {fileID: 2956230464462434413}
@@ -196,6 +235,21 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   player: {fileID: 0}
+  OnRunInput:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6229735560683173668}
+        m_TargetAssemblyTypeName: RangedEnemy, Assembly-CSharp
+        m_MethodName: Run
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!50 &-6310186619267206003
 Rigidbody2D:
   serializedVersion: 4
@@ -227,7 +281,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}

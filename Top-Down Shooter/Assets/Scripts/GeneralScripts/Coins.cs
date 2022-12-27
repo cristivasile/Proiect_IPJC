@@ -28,11 +28,13 @@ public class Coins : MonoBehaviour
         Amount += amount;
     }
 
-    public void SubtractAmount(int amount)
+    public bool SubtractAmount(int amount)
     {
-        Amount -= amount;
-
-        if (Amount < 0)
-            Amount = 0;
+        if (Amount >= amount)
+        {
+            Amount -= amount;
+            return true;
+        }
+        return false;
     }
 }

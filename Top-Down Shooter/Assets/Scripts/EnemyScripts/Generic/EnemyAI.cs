@@ -9,6 +9,8 @@ public abstract class EnemyAI : MonoBehaviour
     public UnityEvent OnAttack;
 
     public Transform player;
+    protected float distance;
+    protected Vector3 direction;
 
     protected float chaseRange;
     protected float attackRange;
@@ -34,8 +36,9 @@ public abstract class EnemyAI : MonoBehaviour
             return;
         }
 
-        float distance = Vector2.Distance(player.position, transform.position);
-        if(distance <= chaseRange)
+        distance = Vector2.Distance(player.position, transform.position);
+        direction = player.position - transform.position;
+        if (distance <= chaseRange)
         {
             OnPointerInput?.Invoke(player.position);
 
@@ -50,7 +53,6 @@ public abstract class EnemyAI : MonoBehaviour
             }
             else
             {
-                Vector3 direction = player.position - transform.position;
                 foreach (var enemyAi in FindObjectsOfType<EnemyAI>())
                 {
                     if(Vector3.Distance(enemyAi.transform.position, transform.position) < 1f)
