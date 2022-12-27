@@ -17,7 +17,7 @@ public class RangedEnemy : Enemy
     {
         base.Start();
         speed = 3f;
-        damage = 5;
+        damage = 5f;
         health = 20f;
     }
 
@@ -30,5 +30,12 @@ public class RangedEnemy : Enemy
     {
         Rigidbody2D bulletRb = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation).GetComponent<Rigidbody2D>();
         bulletRb.AddForce(firePoint.right * fireForce, ForceMode2D.Impulse);
+    }
+
+    public void Run(Vector2 direction)
+    {
+        var velocity = direction * speed;
+        velocity = Vector3.MoveTowards(velocity, Vector3.zero, 2.0f * Time.deltaTime);
+        rb.velocity = velocity;
     }
 }

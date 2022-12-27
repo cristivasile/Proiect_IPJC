@@ -12,15 +12,9 @@ public class HealthBar : MonoBehaviour
     [SerializeField]
     public Gradient gradient;
 
-    private void Start()
-    {
-        _slider.minValue = 0f;
-        _slider.maxValue = _health.Initial;
-    }
-
     public void UpdateBar()
     {
-        _slider.value = _health.Current;
+        _slider.value = _health.Ratio;
         _fillImage.color = gradient.Evaluate(_slider.normalizedValue);
     }
 }

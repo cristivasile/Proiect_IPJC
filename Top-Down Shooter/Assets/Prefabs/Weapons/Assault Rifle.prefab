@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 5681786274403809942}
   - component: {fileID: 5681786274403809941}
   m_Layer: 0
-  m_Name: Kalashnikov
+  m_Name: Assault Rifle
   m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -13,44 +14,37 @@ public class EnemySpawner : MonoBehaviour
     public GameObject topBound;
     public GameObject bottomBound;
 
-    /// xOffset, yOffset
     public static Vector2 minSpawnOffset = new(2f, 5.5f);
     public static Vector2 maxSpawnOffset = new(2f, 8f);
 
     public int maxEnemyCount = 10;
-    /// <summary>
-    /// Spawn interval in milliseconds
-    /// </summary>
-    public const int enemySpawnInterval = 750;
+    public const float enemySpawnInterval = 0.75f;
 
-    /// <summary>
-    /// Time elapsed before the spawn marker dissapears and an enemy appears
-    /// </summary>
-    public const int spawnDelay = 1500;
-    /// <summary>
-    /// Ms elapsed since last enemy was spawned
-    /// </summary>
-    float lastSpawnInterval = enemySpawnInterval + 1;
+    public const float spawnDelay = 1.5f;
+    float lastSpawnTime;
 
     // Update is called once per frame
     void Update()
     {
-         lastSpawnInterval += Time.deltaTime * 1000;
-        if (lastSpawnInterval > enemySpawnInterval && 
-            Enemy.GetNumberOfInstances() < maxEnemyCount)
+        lastSpawnTime += Time.deltaTime;
+        if (lastSpawnTime >= enemySpawnInterval && Enemy.GetNumberOfInstances() < maxEnemyCount)
         {
-            lastSpawnInterval = 0;
+            lastSpawnTime = 0f;
             Spawn();
         }
     }
 
     private void Spawn()
     {
-        System.Random random = new();
-        var enemyIndex = random.Next(0, enemyPrefabs.Count);
-        GameObject newEnemy = Instantiate(enemyPrefabs[enemyIndex]);
-        newEnemy.GetComponent<EnemyAI>().player = player;
-        GameObject marker = Instantiate(spawnMarkerPrefab);
+        IEnumerator Spawn(float delay, GameObject enemyToSpawn, GameObject markerPrefab, Vector3 spawnLocation)
+        {
+            var marker = Instantiate(markerPrefab, spawnLocation, Quaternion.identity);
+            yield return new WaitForSeconds(delay);
+            Destroy(marker);
+
+            var enemy = Instantiate(enemyToSpawn, spawnLocation, Quaternion.identity);
+            enemy.GetComponent<EnemyAI>().player = player;
+        }
 
         Vector3 enemyPosition;
         bool positionIsValid = true;
@@ -61,27 +55,14 @@ public class EnemySpawner : MonoBehaviour
             //check if the position is valid
             if (leftBound != null && rightBound != null && topBound != null && bottomBound != null) 
                 //only check if the bounds are defined to prevent an infinite loop
-                positionIsValid = (enemyPosition.x > leftBound.transform.position.x
+                positionIsValid = (
+                   enemyPosition.x > leftBound.transform.position.x
                 && enemyPosition.x < rightBound.transform.position.x
                 && enemyPosition.y > bottomBound.transform.position.y
                 && enemyPosition.y < topBound.transform.position.y);
         } while (!positionIsValid);
 
-        CreateMarkerAndSpawn(newEnemy, marker, enemyPosition);
-    }
-
-    private async void CreateMarkerAndSpawn(GameObject enemy, GameObject marker, Vector3 position)
-    {
-        enemy.SetActive(false);
-
-        marker.transform.position = position;
-
-        await Task.Delay(spawnDelay);
-
-        Destroy(marker);
-
-        enemy.transform.position = position;
-        enemy.SetActive(true);
+        StartCoroutine(Spawn(spawnDelay, enemyPrefabs[Random.Range(0, enemyPrefabs.Count)], spawnMarkerPrefab, enemyPosition));
     }
 
     private static Vector3 GetRandomPosition(Vector3 playerPosition)

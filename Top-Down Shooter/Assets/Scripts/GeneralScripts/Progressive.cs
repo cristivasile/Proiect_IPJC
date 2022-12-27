@@ -19,7 +19,7 @@ public abstract class Progressive : MonoBehaviour
         }
         set
         {
-            _current = value;
+            _current = value < _initial ? value : _initial;
             OnChange?.Invoke();
         }
     }
@@ -29,6 +29,12 @@ public abstract class Progressive : MonoBehaviour
         get
         {
             return _initial;
+        }
+        set
+        {
+            var diff = value - _initial;
+            _initial += diff;
+            Current += diff;
         }
     }
 

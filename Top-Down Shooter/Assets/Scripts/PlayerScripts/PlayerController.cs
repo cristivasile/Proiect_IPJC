@@ -7,9 +7,6 @@ public class PlayerController : MonoBehaviour
     public PlayerVisuals visuals;
     public PlayerStats stats;
 
-    public Health health;
-    public Coins coins;
-
     Vector2 movement;
 
     private void Start()
@@ -28,7 +25,7 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         Vector2 direction = movement.normalized;
-        rb.MovePosition(rb.position + direction * stats.speed / 100 * stats.unitSpeed * Time.fixedDeltaTime);
+        rb.MovePosition(rb.position + direction * stats.Speed.Value * Time.fixedDeltaTime);
     }
 
     // Player damage
@@ -37,26 +34,26 @@ public class PlayerController : MonoBehaviour
         var randomValue = Random.Range(0f, 100f);
 
         //determine if the hit connects due to dodge chance
-        if (randomValue >= Mathf.Min(stats.dodgeChance, stats.maxDodgeChance))
+        if (randomValue >= Mathf.Min(stats.DodgeChance.Value, stats.MaxDodgeChance))
         {
             //determine the actual damage taken
-            if (stats.armor >= 0)
+            if (stats.Armor.Value >= 0)
             {
-                damageAmount *= 100 / (100 + stats.armor);
+                damageAmount *= 100 / (100 + stats.Armor.Value);
             }
             else
             {
-                damageAmount *= 2 - 100 / (100 - stats.armor);
+                damageAmount *= 2 - 100 / (100 - stats.Armor.Value);
             }
 
-            health.Damage(damageAmount);
+            stats.health.Damage(damageAmount);
         }
     }
 
     // Player healing
     public void ApplyHeal(float healAmount)
     {
-        health.Heal(healAmount);
+        stats.health.Heal(healAmount);
     }
 
     // Player death
