@@ -8,6 +8,7 @@ public class EnemySpawner : MonoBehaviour
     public List<GameObject> enemyPrefabs;
     public GameObject spawnMarkerPrefab;
     public Transform player;
+    public WaveNotifier waveNotifier;
 
     public GameObject leftBound;
     public GameObject rightBound;
@@ -22,6 +23,14 @@ public class EnemySpawner : MonoBehaviour
 
     public const float spawnDelay = 1.5f;
     float lastSpawnTime;
+
+    public int currentWave = 1;
+    public int maxWave = 20;
+
+    private void Start()
+    {
+        waveNotifier.SetWave(currentWave, maxWave);
+    }
 
     // Update is called once per frame
     void Update()
@@ -44,6 +53,9 @@ public class EnemySpawner : MonoBehaviour
 
             var enemy = Instantiate(enemyToSpawn, spawnLocation, Quaternion.identity);
             enemy.GetComponent<EnemyAI>().player = player;
+
+            currentWave++;
+            waveNotifier.SetWave(currentWave, maxWave);
         }
 
         Vector3 enemyPosition;
