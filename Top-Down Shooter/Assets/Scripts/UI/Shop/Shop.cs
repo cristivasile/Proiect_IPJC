@@ -53,14 +53,18 @@ public class Shop : MonoBehaviour
         gameObject.GetComponent<Canvas>().enabled = isEnabled;
     }
 
+    public void EnableShop(bool enable)
+    {
+        isEnabled = enable;
+        gameObject.GetComponent<Canvas>().enabled = isEnabled;
+        Time.timeScale = isEnabled ? 0f : 1f;
+    }
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
+        if(Input.GetKeyDown(KeyCode.Space) && isEnabled)
         {
-            isEnabled = !isEnabled;
-            gameObject.GetComponent<Canvas>().enabled = isEnabled;
-            Time.timeScale = isEnabled ? 0f : 1f;
+            EnableShop(false);
         }
     }
 }

@@ -13,7 +13,6 @@ public class RangedEnemyBullet : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Player"))
         {
-
             collision.gameObject.GetComponent<PlayerController>().ApplyDamage(damage);
             Destroy(gameObject);
         }

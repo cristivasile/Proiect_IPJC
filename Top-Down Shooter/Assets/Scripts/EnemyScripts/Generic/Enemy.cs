@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.Events;
 
 public abstract class Enemy : MonoBehaviour
 {
-    private static int instances = 0;
     protected Rigidbody2D rb;
     private Health _health;
     private PlayerStats _stats;
@@ -18,13 +18,18 @@ public abstract class Enemy : MonoBehaviour
     protected float speed = 2f;
     protected float damage = 10f;
     protected float maxHealth = 50f;
+
+    //speed will increase slower than damage and health
+    private readonly float speedModifyPercentage = 0.5f;
+    private readonly float damageModifyPercentage = 1.0f;
+    private readonly float healthModifyPercentage = 1.10f;
+
     protected float health;
 
     // Start is called before the first frame update
     protected void Start()
     {
         health = maxHealth;
-        instances++;
         rb = GetComponent<Rigidbody2D>();
         _health = FindObjectOfType<Health>();
         _stats = FindObjectOfType<PlayerStats>();
@@ -44,7 +49,6 @@ public abstract class Enemy : MonoBehaviour
     public virtual void Destroy()
     {        
         Destroy(gameObject);
-        instances--;
     }
 
     public virtual void DropCoins()
@@ -63,12 +67,6 @@ public abstract class Enemy : MonoBehaviour
         _health.Heal(maxHealth * _stats.LifeSteal.Value / 100);
     }
 
-    public static int GetNumberOfInstances()
-    {
-        return instances;
-    }
-
-
     public virtual void Move(Vector2 direction)
     {
         rb.velocity = direction * speed;
@@ -82,5 +80,19 @@ public abstract class Enemy : MonoBehaviour
     public virtual void Attack()
     {
         _health.Damage(damage);
+    }
+
+    protected void applyModifier(ref float stat, float modifier, float baseModifier)
+    {
+        stat += stat * (modifier - 1.0f) * baseModifier; 
+    }
+
+    //sets the stats based on a difficulty modifier
+    public virtual void ModifyStats(float modifier)
+    {
+        applyModifier(ref speed, modifier, speedModifyPercentage);
+        applyModifier(ref damage, modifier, damageModifyPercentage);
+        applyModifier(ref maxHealth, modifier, healthModifyPercentage);
+        health = maxHealth;
     }
 }
