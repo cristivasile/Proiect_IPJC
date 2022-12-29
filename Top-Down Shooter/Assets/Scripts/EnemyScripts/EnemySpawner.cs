@@ -39,19 +39,19 @@ public class EnemySpawner : MonoBehaviour
     /// Wave spawner variables
     /// </summary>
     //delay between player spawn and first wave
-    public const float firstWaveDelay = 2.0f;
+    public float firstWaveDelay = 1.5f;
     //delay between waves in seconds
-    public const float waveInterval = 5.0f;
+    public float waveInterval = 2.0f;
     private float timeSinceWaveEnded = 0.0f;
-    public int currentWave = 1;
+    private int currentWave = 1;
     public int maxWave = 20;
     public float difficultyModifier = 1.0f;
     public float difficultyIncrease = 0.15f; //increases by x% each wave
     /// <summary>
     /// Eenemies will spawn in bursts every <burstInterval> seconds. Every <burstIncreaseInterval> waves the nr of bursts will increment
     /// </summary>
-    public int burstNr = 2;
-    public float burstInterval = 3.5f;
+    public int burstNumber = 2;
+    public float burstInterval = 5.0f;
     public int burstIncreaseInterval = 3;
 
     private State spawnerState = State.SPAWNING;
@@ -93,7 +93,7 @@ public class EnemySpawner : MonoBehaviour
                     openShopEvent.Invoke();
 
                     if ((currentWave - 1) % burstIncreaseInterval == 0)
-                        burstNr += 1;
+                        burstNumber += 1;
 
                     //notify wave UI
                     waveNotifier.SetWave(currentWave, maxWave);
@@ -114,7 +114,7 @@ public class EnemySpawner : MonoBehaviour
 
     private IEnumerator SpawnWave()
     {
-        for (int burstIndex = 0; burstIndex < burstNr; burstIndex++)
+        for (int burstIndex = 0; burstIndex < burstNumber; burstIndex++)
         {
             for (int enemyIndex = 0; enemyIndex < baseEnemyCount * difficultyModifier; enemyIndex++)
             {
