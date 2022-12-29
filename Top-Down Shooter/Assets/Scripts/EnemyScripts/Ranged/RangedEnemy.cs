@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,7 +11,9 @@ public class RangedEnemy : Enemy
 
     public Transform firePoint;
     public GameObject bulletPrefab;
-    public float fireForce = 10;
+    public float fireForce = 10.0f;
+
+    private readonly float fireForceModifyPercentage = 0.15f;
 
     // Start is called before the first frame update
     new void Start()
@@ -37,5 +40,11 @@ public class RangedEnemy : Enemy
         var velocity = direction * speed;
         velocity = Vector3.MoveTowards(velocity, Vector3.zero, 2.0f * Time.deltaTime);
         rb.velocity = velocity;
+    }
+
+    public override void ModifyStats(float modifier)
+    {
+        base.ModifyStats(modifier);
+        applyModifier(ref fireForce, modifier, fireForceModifyPercentage);
     }
 }
