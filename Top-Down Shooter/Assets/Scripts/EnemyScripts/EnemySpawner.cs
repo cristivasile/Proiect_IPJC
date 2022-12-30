@@ -9,6 +9,7 @@ using UnityEngine.Events;
 public class EnemySpawner : MonoBehaviour
 {   private enum State
     {
+        IDLE,
         SPAWNING, //in the process of spawning enemies
         WAITING,  //waiting for the player to kill the enemies
         COUNTING, //counting down after a wave ends
@@ -18,6 +19,7 @@ public class EnemySpawner : MonoBehaviour
     public GameObject spawnMarkerPrefab;
     public Transform player;
     public WaveNotifier waveNotifier;
+    public TimerNotifier timerNotifier;
 
     public GameObject leftBound;
     public GameObject rightBound;
@@ -30,7 +32,7 @@ public class EnemySpawner : MonoBehaviour
     public static Vector2 minSpawnOffset = new(2f, 5.5f);
     public static Vector2 maxSpawnOffset = new(2f, 8f);
 
-    public int baseEnemyCount = 6;
+    public int baseEnemyCount = 8;
     public const float enemySpawnInterval = 0.25f;
     //time elapsed between marker and enemy appearances
     private const float markerToSpawnInterval = 0.5f;
@@ -42,6 +44,9 @@ public class EnemySpawner : MonoBehaviour
     public float firstWaveDelay = 1.5f;
     //delay between waves in seconds
     public float waveInterval = 2.0f;
+    //max wave duration
+    public float waveDuration = 30.0f;
+    public float remainingWaveDuration = 0.0f;
     private float timeSinceWaveEnded = 0.0f;
     private int currentWave = 1;
     public int maxWave = 20;
@@ -54,7 +59,7 @@ public class EnemySpawner : MonoBehaviour
     public float burstInterval = 5.0f;
     public int burstIncreaseInterval = 3;
 
-    private State spawnerState = State.SPAWNING;
+    private State spawnerState = State.IDLE;
 
     private IEnumerator SpawnFirstWave()
     {
@@ -71,13 +76,21 @@ public class EnemySpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (spawnerState != State.IDLE)
+        {
+            remainingWaveDuration -= Time.deltaTime;
+        }
+        timerNotifier.UpdateText(remainingWaveDuration);
+
         //waiting for the player to kill the enemies
         if(spawnerState == State.WAITING)
         {
-            if(GameObject.FindGameObjectsWithTag("Enemy").Count() == 0)   //wave is completed, start counting down
+            if(GameObject.FindGameObjectsWithTag("Enemy").Count() == 0 || remainingWaveDuration - waveInterval <= 0.0f)   
+            //wave is completed, start counting down
             {
                 spawnerState = State.COUNTING;
                 timeSinceWaveEnded = 0.0f;
+                remainingWaveDuration = waveInterval;
             }
         }
         if(spawnerState == State.COUNTING)
@@ -100,7 +113,6 @@ public class EnemySpawner : MonoBehaviour
 
                     //modify difficulty and start new wave
                     difficultyModifier += difficultyModifier * difficultyIncrease;
-                    spawnerState = State.SPAWNING;
                     StartCoroutine(SpawnWave());
                 }
                 else
@@ -114,6 +126,8 @@ public class EnemySpawner : MonoBehaviour
 
     private IEnumerator SpawnWave()
     {
+        spawnerState = State.SPAWNING;
+        remainingWaveDuration = waveDuration;
         for (int burstIndex = 0; burstIndex < burstNumber; burstIndex++)
         {
             for (int enemyIndex = 0; enemyIndex < baseEnemyCount * difficultyModifier; enemyIndex++)
