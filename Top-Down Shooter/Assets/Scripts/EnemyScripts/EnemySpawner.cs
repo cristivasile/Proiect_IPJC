@@ -9,7 +9,7 @@ using UnityEngine.Events;
 public class EnemySpawner : MonoBehaviour
 {   private enum State
     {
-        IDLE,
+        IDLE,     //before the game starts
         SPAWNING, //in the process of spawning enemies
         WAITING,  //waiting for the player to kill the enemies
         COUNTING, //counting down after a wave ends
@@ -112,7 +112,6 @@ public class EnemySpawner : MonoBehaviour
                     waveNotifier.SetWave(currentWave, maxWave);
 
                     //modify difficulty and start new wave
-                    difficultyModifier += difficultyModifier * difficultyIncrease;
                     StartCoroutine(SpawnWave());
                 }
                 else
@@ -127,7 +126,10 @@ public class EnemySpawner : MonoBehaviour
     private IEnumerator SpawnWave()
     {
         spawnerState = State.SPAWNING;
+        waveDuration = 20.0f + burstNumber * burstInterval;
         remainingWaveDuration = waveDuration;
+        difficultyModifier += difficultyModifier * difficultyIncrease;
+
         for (int burstIndex = 0; burstIndex < burstNumber; burstIndex++)
         {
             for (int enemyIndex = 0; enemyIndex < baseEnemyCount * difficultyModifier; enemyIndex++)

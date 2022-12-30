@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
 
     public PlayerVisuals visuals;
     public PlayerStats stats;
+    public DeathScreen deathScreen;
 
     Vector2 movement;
 
@@ -62,5 +63,7 @@ public class PlayerController : MonoBehaviour
     {
         // Destroy(gameObject);
         Debug.Log("Player died!");
+        Time.timeScale = 0.0f;
+        deathScreen.Enable();
     }
 }

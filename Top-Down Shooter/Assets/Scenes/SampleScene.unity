@@ -5632,7 +5632,7 @@ MonoBehaviour:
     BaseValue: 100
     _value: 0
   LifeSteal:
-    BaseValue: 10
+    BaseValue: 1
     _value: 0
   Looting:
     BaseValue: 0
